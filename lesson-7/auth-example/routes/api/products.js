@@ -1,6 +1,5 @@
 const express = require("express");
 const createError = require("http-errors");
-const Joi = require("joi");
 
 const {Product, schemas} = require("../../models/product");
 
