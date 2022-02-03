@@ -29,6 +29,11 @@ const productSchema = Schema({
         required: true,
         match: codeRegexp,
         unique: true
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+        required: true
     }
 }, {versionKey: false, timestamps: true});
 
