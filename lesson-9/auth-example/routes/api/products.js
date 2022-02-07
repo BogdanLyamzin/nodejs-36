@@ -3,38 +3,14 @@ const createError = require("http-errors");
 
 const {Product, schemas} = require("../../models/product");
 const {authenticate} = require("../../middlewares");
+const ctrl = require("../../controllers/products");
 
 const router = express.Router();
 
-router.get("/", authenticate, async(req, res, next)=> {
-    try {
-        const {page = 1, limit = 20} = req.query;
-        const {_id} = req.user;
-        const skip = (page - 1) * limit;
-        const result = await Product.find(
-            {owner: _id}, 
-            "-createdAt -updatedAt", {skip, limit: +limit}).populate("owner", "email")
-        res.json(result);
-    } catch (error) {
-        next(error);
-    }
-})
+// router.get("/", authenticate, ctrl.getAll);
+router.get("/", ctrl.getAll);
 
-router.get("/:id", async(req, res, next)=> {
-    try {
-        const {id} = req.params;
-        const result = await Product.findById(id);
-        if(!result){
-            throw new createError(404, "Not found");
-        }
-        res.json(result);
-    } catch (error) {
-        if(error.message.includes("Cast to ObjectId failed")){
-            error.status = 404;
-        }
-        next(error)
-    }
-})
+router.get("/:id", ctrl.getById);
 
 router.post("/", authenticate, async(req, res, next)=> {
     try {
