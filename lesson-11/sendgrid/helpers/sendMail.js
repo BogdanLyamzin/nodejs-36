@@ -12,6 +12,14 @@ const mail = {
     html: "<p>Новое письмо с сайта</p>"
 };
 
-sgMail.send(mail)
-    .then(()=> console.log("Email send success"))
-    .catch(error => console.log(error.message))
+const sendMail = async(data) => {
+    try {
+        const mail = {...data, from: "bogdan.lyamzin.d@gmail.com"}
+        await sgMail.send(mail);
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = sendMail;
