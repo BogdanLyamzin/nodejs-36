@@ -4,15 +4,16 @@ const wsServer = new ws.Server({port: 5000});
 
 const clients = [];
 
-wsServer.on("connection", (newClient)=> {
+wsServer.on("connection", (newClient)=>{
     clients.push(newClient);
+    // console.log("Новое соединение с фронтенда")
     setTimeout(() => {
-        newClient.send(`Welcome to websocket server! You are ${clients.length} member`)
-    }, 5000);
+        newClient.send("Добро пожаловать на наш бекенд")
+    }, 3000);
+
     clients.forEach(client => {
-        if(client !== newClient){
-            client.send("New member");
+        if(client !== newClient) {
+            client.send("У нас новый член команды")
         }
-    })
-    // console.log("New frontend connect")
+    })    
 })
